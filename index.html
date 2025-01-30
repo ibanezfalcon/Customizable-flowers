@@ -25,7 +25,7 @@
             text-align: center;
             color: white;
             padding-top: 20px;
-            margin-top:25px;
+            margin-top: 25px;
         }
 
         /* Body background */
@@ -54,12 +54,12 @@
         /* Font styling for different parts */
         .happy-text {
             font-family: 'Sacramento', cursive;
-            font-size: 3.2rem;
+            font-size: 3.3rem;
             color: #ff69b4; /* Pink color */
         }
 
         .reminder-text {
-            font-family: 'Lato', sans-serif;
+            font-family: 'Georgia', serif;
             font-size: 1.3rem;
             color: #fff;
             font-style: italic;
@@ -74,34 +74,38 @@
 
         .modal-title {
             font-family: 'Georgia', serif;
-            font-size: 2rem;
-            margin-bottom: 20px;
-        }
-
-        .verse-text {
-            font-family: 'Georgia', serif;
             font-size: 1.5rem;
             margin-bottom: 20px;
         }
 
-        .reference {
-            font-family: 'Arial', sans-serif;
-            font-size: 1.2rem;
-            color: #f0a;
+        .sweet-message {
+            font-family: 'Georgia', serif;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            color: #ff69b4; /* Sweet pink color */
         }
 
-        #typing-text{
+        .couple-image {
+            width: 100%;
+            max-width: 400px;
+            height: 350px;
+            border-radius: 15px;
+            margin-top: 15px;
+            object-fit: cover;
+            max-height: 400px;
+        }
+
+
+        #typing-text {
             font-family: 'Sacramento', cursive;
             font-style: italic;
             font-size: 2.3rem;
         }
 
-        #reminderTxt{
+        #reminderTxt {
             font-size: 1.2rem;
             margin-top: 15px;
         }
-        
-
     </style>
 </head>
 <body>
@@ -124,17 +128,17 @@
         <p class="reminder-text" id="reminder-text"></p>
     </div>
 
-    <!-- Modal for displaying the verse -->
-    <div class="modal fade" id="verseModal" tabindex="-1" aria-labelledby="verseModalLabel" aria-hidden="true">
+    <!-- Modal for displaying the sweet message and picture -->
+    <div class="modal fade" id="sweetMessageModal" tabindex="-1" aria-labelledby="sweetMessageModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="verseModalLabel">Your Verse</h5>
+                    <h5 class="modal-title" id="sweetMessageModalLabel">A Sweet Message For You</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p class="verse-text" id="verse-text"></p>
-                    <p class="reference" id="verse-reference"></p>
+                    <p class="sweet-message" id="sweet-message-text">You are my sunshine in every moment, my love. Here's to the future we will share and the memories we will create ❤️</p>
+                    <img src="/danandyelle.jpg" alt="Couple Picture" class="couple-image">
                 </div>
             </div>
         </div>
@@ -166,18 +170,6 @@
             }, speed);
         }
 
-        function adjustFontSize(verseText) {
-            const maxLength = 60; // Set a maximum character length
-            const verseElement = document.getElementById('verse-text');
-            
-            if (verseText.length > maxLength) {
-                verseElement.style.fontSize = '1rem'; // Reduce font size for long verses
-            } else {
-                verseElement.style.fontSize = '1.5rem'; // Default font size for shorter verses
-            }
-        }
-
-        // After video ends, display message and verse in modal
         document.getElementById('flower-video').addEventListener('ended', async () => {
             // Hide main video and show the cut video
             document.getElementById('flower-video').style.display = 'none';
@@ -189,26 +181,15 @@
             // Start typing effect for the text message
             typeText(typingElement, "Happy hearts day!", 100);
 
-            // Fetch verses from the JSON file
-            const verses = await fetchVerses();
+            setTimeout(() => {
+                typingElement.innerHTML += "<br><p id=reminderTxt>I love you for all that you are, all that you've been, and all that you're yet to be ❤️</p>";
+            }, 3500); 
 
-            if (verses.length > 0) {
-                setTimeout(() => {
-                    typingElement.innerHTML += "<br><p id=reminderTxt>Here's a simple verse to remind you that you are loved ❤️</p>";
-                }, 3500); 
-                setTimeout(() => {
-                    const randomVerse = verses[Math.floor(Math.random() * verses.length)];
-                    const verseText = `"${randomVerse.text}"`;
-                    document.getElementById('verse-text').textContent = verseText;
-                    document.getElementById('verse-reference').textContent = `― ${randomVerse.book} ${randomVerse.chapter}:${randomVerse.verse}`;
-
-                    // Adjust the font size based on the length of the verse
-                    adjustFontSize(randomVerse.text);
-
-                    const modal = new bootstrap.Modal(document.getElementById('verseModal'));
-                    modal.show();
-                }, 8000); 
-            }
+            setTimeout(() => {
+                // Instead of a verse, display a sweet message in the modal
+                const modal = new bootstrap.Modal(document.getElementById('sweetMessageModal'));
+                modal.show();
+            }, 8000); 
         });
     </script>
 </body>
